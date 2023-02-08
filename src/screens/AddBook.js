@@ -8,6 +8,7 @@ import RNFS from 'react-native-fs'
 import { child, Database, push, ref, set } from 'firebase/database'
 import { AppFunctions } from '../utils/AppFunctions'
 import { db } from '../firestore/config'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const AddBook = ({ navigation }) => {
     const [loading, setLoading] = useState(false)
@@ -21,12 +22,15 @@ const AddBook = ({ navigation }) => {
     const [bookCategory, setBookCategory] = useState();
     const [quantity, setQuantity] = useState();
 
-    const create = () => {
+    const create = async () => {
         setLoading(true);
+        const value = await AsyncStorage.getItem('userDetails')
+        const userVal = JSON.parse(value)
         try {
             let id = AppFunctions.Datetoday() + AppFunctions.now();
             set(ref(db, 'Seller_Master/' + id), {
                 Id: id,
+                Owner: userVal.Name,
                 Name: bookTitle,
                 Author: autherName,
                 Category: bookCategory,

@@ -1,9 +1,11 @@
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../components/Core/Form/Button'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SellerDashboard = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false)
+
     return (
         <View style={{ flex: 1 }}>
             <Modal

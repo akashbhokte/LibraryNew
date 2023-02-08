@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onValue, ref } from 'firebase/database';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -13,19 +14,22 @@ const SellerBookList = ({ navigation }) => {
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
 
-
     const getData = () => {
         setLoading(true);
         try {
             const starCountRef = ref(db, 'Seller_Master/');
-            onValue(starCountRef, (snapshot) => {
+            onValue(starCountRef, async (snapshot) => {
                 const data = snapshot.val();
                 if (data) var myData = Object.keys(data).map(key => {
                     return data[key];
                 })
-                // console.log("myData", myData)
-                setFilteredDataSource(myData)
-                setMasterDataSource(myData)
+                const value = await AsyncStorage.getItem('userDetails')
+                const userVal = JSON.parse(value)
+                let list = myData.filter((i) => {
+                    if (i?.Owner == userVal?.Name) return i
+                })
+                setFilteredDataSource(list)
+                setMasterDataSource(list)
             });
         } catch (error) {
 
@@ -201,9 +205,3 @@ const styles = StyleSheet.create({
     }
 })
 
-
-
-
-
-
-// https://image.tmdb.org/t/p/w500/

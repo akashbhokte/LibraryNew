@@ -33,7 +33,9 @@ const Login = ({ navigation }) => {
     const loginHandler = async () => {
         if (data[mobile]) {
             if (data[mobile].Password == password) {
-                await AsyncStorage.setItem('userDetails', value)
+                const user = JSON.stringify(data[mobile])
+                await AsyncStorage.setItem('userDetails', user)
+
                 if (data[mobile].Type == 1) {
                     navigation.navigate('SellerDashboard')
                 } else {
