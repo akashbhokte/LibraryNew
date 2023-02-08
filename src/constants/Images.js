@@ -1,0 +1,16 @@
+export const Images = {
+    // Email: require('../assets/images/Email.png'),
+    // EyeClose: require('../assets/images/EyeClose.png'),
+    // EyeOpen: require('../assets/images/EyeOpen.png'),
+    // Lock: require('../assets/images/Lock.png'),
+    // Checkmark: require('../assets/images/Checkmark.png'),
+    // BackIcon: require('../assets/images/BackIcon.png'),
+    // onboardDoctor: require('../assets/images/onboardDoctor.png'),
+    // logoWatermark: require('../assets/images/logoWatermark.png'),
+    // Journal: require('../assets/images/journal.png'),
+    // UpArrow: require('../assets/images/UpArrow.png'),
+    // RightArrow: require('../assets/images/RightArrow.png'),
+    // UploadIcon: require('../assets/images/UploadIcon.png'),
+    // CTScan: require('../assets/images/CTScan.png'),
+    // DeleteIcon: require('../assets/images/deleteIcon.png'),
+};
