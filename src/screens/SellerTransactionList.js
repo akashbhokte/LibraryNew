@@ -10,7 +10,7 @@ import { db } from '../firestore/config';
 import { AppFunctions } from '../utils/AppFunctions';
 import { StatusReader } from '../utils/StatusReader'
 
-const AdminTransactions = ({ navigation }) => {
+const SellerTransactionsList = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
@@ -25,8 +25,14 @@ const AdminTransactions = ({ navigation }) => {
                 if (data) var myData = Object.keys(data).map(key => {
                     return data[key];
                 })
-                setFilteredDataSource(myData)
-                setMasterDataSource(myData)
+                const value = await AsyncStorage.getItem('userDetails')
+                const userVal = JSON.parse(value)
+                let list = myData.filter((i) => {
+                    if (i?.Seller_Name == userVal?.Name) return i
+                })
+                console.log(list)
+                setFilteredDataSource(list)
+                setMasterDataSource(list)
             });
         } catch (error) {
 
@@ -60,7 +66,9 @@ const AdminTransactions = ({ navigation }) => {
     const ItemView = ({ item }) => {
         return (
             <Card style={{ marginVertical: '2%', alignSelf: 'center' }}>
-                <View>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('TransactionDetails', { item: item })}
+                >
                     <View style={styles.Container_Item_Desc} >
                         <Text style={styles.Text_Style_Title}>{item.Book_Name}</Text>
                         <Text style={styles.Text_Style_P}>Date of Transaction: {AppFunctions.dateShowConvert(item.Date)}</Text>
@@ -76,7 +84,7 @@ const AdminTransactions = ({ navigation }) => {
                             <Text style={styles.Text_Style_P}>Expires on: {item.End_dt}</Text>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </Card>
         );
     };
@@ -105,7 +113,7 @@ const AdminTransactions = ({ navigation }) => {
     )
 }
 
-export default AdminTransactions
+export default SellerTransactionsList
 
 const styles = StyleSheet.create({
     Main_Body: {

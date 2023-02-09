@@ -1,35 +1,56 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onValue, ref } from 'firebase/database';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import { Colors } from '../constants';
+import { db } from '../firestore/config';
+import { AppFunctions } from '../utils/AppFunctions';
+import { StatusReader } from '../utils/StatusReader'
 
 const Transactions = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
+    const [loading, setLoading] = useState(false)
+
+    const getData = () => {
+        setLoading(true);
+        try {
+            const starCountRef = ref(db, 'Orders/');
+            onValue(starCountRef, async (snapshot) => {
+                const data = snapshot.val();
+                if (data) var myData = Object.keys(data).map(key => {
+                    return data[key];
+                })
+                const value = await AsyncStorage.getItem('userDetails')
+                const userVal = JSON.parse(value)
+                let list = myData.filter((i) => {
+                    if (i?.Buyer_Name == userVal?.Name) return i
+                })
+                console.log(list)
+                setFilteredDataSource(list)
+                setMasterDataSource(list)
+            });
+        } catch (error) {
+
+        }
+        setLoading(false);
+    }
 
     useEffect(() => {
-        fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setFilteredDataSource(responseJson.results);
-                setMasterDataSource(responseJson.results);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+        getData();
+    }, [])
 
-    console.log("filteredDataSource", filteredDataSource[0])
 
     const searchFilterFunction = (text) => {
         if (text) {
             const newData = masterDataSource.filter(
                 function (item) {
-                    const itemData = item.title
-                        ? item.title.toUpperCase()
+                    const itemData = item.Book_Name
+                        ? item.Book_Name.toUpperCase()
                         : ''.toUpperCase();
                     const textData = text.toUpperCase();
                     return itemData.indexOf(textData) > -1;
@@ -49,15 +70,18 @@ const Transactions = ({ navigation }) => {
                     onPress={() => navigation.navigate('TransactionDetails', { item: item })}
                 >
                     <View style={styles.Container_Item_Desc} >
-                        <Text style={styles.Text_Style_Title}>{item.title}</Text>
-                        <Text style={styles.Text_Style_P}>Date of Transaction: 12/12/2022</Text>
+                        <Text style={styles.Text_Style_Title}>{item.Book_Name}</Text>
+                        <Text style={styles.Text_Style_P}>Date of Transaction: {AppFunctions.dateShowConvert(item.Date)}</Text>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.Text_Style_P}>Seller: Name</Text>
-                            <Text style={styles.Text_Style_P}>Buyer: Name</Text>
+                            <Text style={styles.Text_Style_P}>Price: Rs.{item.Book_Price}.00</Text>
+                            <Text style={styles.Text_Style_P}>Quantity: {item.Book_Quantity}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.Text_Style_P}>Type: Name</Text>
-                            <Text style={styles.Text_Style_P} >Status: Pending</Text>
+                            <Text style={styles.Text_Style_P}>Seller: {item.Seller_Name}</Text>
+                            <Text style={styles.Text_Style_P} >Status: {StatusReader(item.Status)}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.Text_Style_P}>Expires on: {item.End_dt}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

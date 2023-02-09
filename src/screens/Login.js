@@ -4,17 +4,14 @@ import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpa
 import { Divider } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// 
 import { useTogglePasswordVisibility } from '../components/useTogglePasswordVisibility';
 import { db } from '../firestore/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
-
-
     const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-    const [mobile, setMobile] = useState('');
-    const [password, setPassword] = useState('');
+    const [mobile, setMobile] = useState('9090909090');
+    const [password, setPassword] = useState('Admin123');
     const [data, setData] = useState();
 
     const getData = () => {
@@ -22,7 +19,6 @@ const Login = ({ navigation }) => {
         onValue(starCountRef, (snapshot) => {
             const data = snapshot.val();
             setData(data)
-            console.log(data)
         });
     }
 

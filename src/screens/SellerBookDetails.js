@@ -82,8 +82,12 @@ const SellerBooksDetails = ({ navigation, route }) => {
                         <Text style={styles.autherName}>Auther: {item.Author}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.sellerName}>Category: {CategoryReader(0)}</Text>
+                        <Text style={styles.sellerName}>Category: {CategoryReader(item?.Category)}</Text>
                         <Text style={styles.sellerName}>Listing Date: {AppFunctions.dateShowConvert(item.Listing_Date)}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={styles.sellerName}>MRP: {item?.MRP}.00</Text>
+                        <Text style={styles.sellerName}>Books in stock: {item?.Quantity}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: '5%' }}>
                         <View style={{ flex: 1, marginHorizontal: '5%', }}>

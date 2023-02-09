@@ -20,7 +20,7 @@ const BuyerDashboard = ({ navigation }) => {
             <Button lable={'Orders'}
                 linearGradient
                 style={styles.button}
-                onPress={() => navigation.navigate('AdminTransactions')}
+                onPress={() => navigation.navigate('Transactions')}
             />
         </View>
     )

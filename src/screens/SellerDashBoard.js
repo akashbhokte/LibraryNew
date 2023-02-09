@@ -62,7 +62,7 @@ const SellerDashboard = ({ navigation }) => {
                     <Button lable='Orders'
                         linearGradient
                         onPress={() => {
-                            navigation.navigate('Orders');
+                            navigation.navigate('SellerTransactionList');
                         }}
                     />
 

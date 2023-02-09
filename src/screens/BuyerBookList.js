@@ -25,9 +25,6 @@ const BuyerBookList = ({ navigation }) => {
                 })
                 const value = await AsyncStorage.getItem('userDetails')
                 const userVal = JSON.parse(value)
-                let list = myData.filter((i) => {
-                    if (i?.Owner == userVal?.Name) return i
-                })
                 setFilteredDataSource(myData)
                 setMasterDataSource(myData)
             });
@@ -64,7 +61,7 @@ const BuyerBookList = ({ navigation }) => {
         return (
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('SellerBooksDetails', { item: item })}
+                    onPress={() => navigation.navigate('BuyerBooksDetails', { item: item })}
                 >
                     <View style={styles.Card_Container}>
                         <View style={styles.Container_Item_Image}>
@@ -88,27 +85,6 @@ const BuyerBookList = ({ navigation }) => {
 
     return (
         <View style={styles.Main_Body}>
-            <TouchableOpacity
-                style={{
-                    marginLeft: '1%',
-                    width: '90%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                    backgroundColor: '#05B5F7',
-                    borderRadius: 8,
-                    borderWidth: 1,
-                    marginTop: '3%'
-                }}
-                onPress={() => navigation.navigate('AddBook')}
-            // onPress={()=>Linking.openURL('https://stackoverflow.com/questions/35531679/react-native-open-links-in-browser')}
-            >
-                <Text style={{
-                    fontSize: 20,
-                    color: '#fff',
-                    padding: '3%',
-                }}>+ ADD BOOK</Text>
-            </TouchableOpacity>
             <View style={styles.SearchBar_Style}>
                 <Searchbar
                     placeholder="Search"

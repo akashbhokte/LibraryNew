@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../screens/Login';
 import Registration from '../screens/Registration';
-import BooksDetails from '../screens/BooksDetails';
+import BooksDetails from '../screens/BuyerBooksDetails';
 import UserType from '../screens/UserType';
 import TransactionDetails from '../screens/TransactionDetails';
 import Transactions from '../screens/Transactions';
@@ -26,6 +26,8 @@ import ResearchPaperList from '../screens/ResearchPaperList';
 import AdminResearchPaperList from '../screens/AdminResearchPaperList';
 import BuyerDashboard from '../screens/BuyerDashboard';
 import BuyerBookList from '../screens/BuyerBookList';
+import BuyerBooksDetails from '../screens/BuyerBooksDetails';
+import SellerTransactionsList from '../screens/SellerTransactionList';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,10 +52,11 @@ function Auth() {
                 <Stack.Screen name="EditBook" component={EditBook} />
                 <Stack.Screen name="SellerBookList" component={SellerBookList} />
                 <Stack.Screen name="BuyerDashboard" component={BuyerDashboard} />
-                <Stack.Screen name="BooksDetails" component={BooksDetails} />
+                <Stack.Screen name="BuyerBooksDetails" component={BuyerBooksDetails} />
                 <Stack.Screen name="AdminBooksDetails" component={AdminBooksDetails} />
                 <Stack.Screen name="SellerBooksDetails" component={SellerBooksDetails} />
                 <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
+                <Stack.Screen name="SellerTransactionList" component={SellerTransactionsList} />
                 <Stack.Screen name="AdminTransactionDetails" component={AdminTransactionDetails} />
                 <Stack.Screen name="AdminResearchPaperList" component={AdminResearchPaperList} />
             </Stack.Navigator>

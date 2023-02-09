@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
 // import AntDesign from 'react-native-vector-icons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -9,59 +9,130 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import { Colors } from '../constants';
 import Button from '../components/Core/Form/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onValue, ref, update } from 'firebase/database';
+import { db } from '../firestore/config';
+import { StatusReader } from '../utils/StatusReader';
+import { CategoryReader } from '../utils/CategoryReader';
+import { AppFunctions } from '../utils/AppFunctions';
 
 const TransactionDetails = ({ navigation, route }) => {
     const item = route.params.item
-    const items = item.items
+    const [book, setBook] = useState();
+    const [modalVisible, setModalVisible] = useState(false)
 
-    // console.log("items.....", item)
-    const [Movie, setMovie] = useState('');
-    // useEffect(() => {
-    //     console.log('reload...................');
-    //     getNP();
-    // }, []);
+    useEffect(() => {
+        getData();
+    }, [])
 
-    // async function getNP() {
-    //     // console.log('Hello');
-    //     var resdata = await axios.get(
-    //         'https://api.themoviedb.org/3/movie/top_rated?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed',
+    const getData = () => {
+        try {
+            const starCountRef = ref(db, 'Seller_Master/');
+            onValue(starCountRef, async (snapshot) => {
+                const data = snapshot.val();
 
-    //     );
-    //     console.log('resdata is ', resdata.data.results[0]);
-    //     setMovie(resdata.data.results[1]);
-    // }
-    let showDate = moment(item.release_date).format('MMM DD, YYYY')
+                if (data[item.Book_Id]) {
+                    if (data[item.Book_Id].Id == item.Book_Id) {
+                        setBook(data[item.Book_Id])
+                    }
+                }
+            });
+        } catch (error) {
+
+        }
+    }
+
+    const cancelHandler = async (id) => {
+        const value = await AsyncStorage.getItem('userDetails')
+        const userVal = JSON.parse(value)
+        try {
+            update(ref(db, 'Orders/' + id), {
+                order_Id: id,
+                Book_Id: book?.Id,
+                Book_Name: book?.Name,
+                Book_Quantity: item.Book_Quantity,
+                Buyer_Name: userVal?.Name,
+                Book_Price: item.Book_Price,
+                Seller_Name: item?.Seller_Name,
+                Date: AppFunctions.Datetoday(),
+                End_dt: item.End_dt,
+                Status: 3,
+
+            }).then(() => {
+                console.log("Updated")
+                navigation.navigate('Transactions');
+            }).catch((e) => console.log(e))
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     return (
         <View style={styles.Main_Body}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={{
+                            fontWeight: 'bold'
+                        }}>Are you sure you want to cancel the order?</Text>
+                        <View style={{ marginBottom: '8%' }}>
+                            <Pressable
+                                style={[styles.button, styles.buttonOption]}
+                                onPress={() => {
+                                    cancelHandler(item?.order_Id);
+                                    setModalVisible(!modalVisible);
+                                }}>
+                                <Text style={styles.textStyle}>Confirm</Text>
+                            </Pressable>
+                        </View>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}>
+                            <Text style={styles.textStyle}>Cancel</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
             <View style={{ flex: 1, alignItems: 'center', marginTop: '5%' }}>
-                <Image source={{
-                    uri: 'https://image.tmdb.org/t/p/w500/' + item.poster_path,
-                }}
+                <Image
+                    source={{ uri: `data:image/jpeg;base64,${book?.image}` }}
                     style={styles.Image_Style}
                 />
             </View>
             <View style={{ flex: 1, }}>
                 <ScrollView>
                     <Text style={styles.Title_Text}>
-                        {item.title}
+                        {item.Book_Name}
                     </Text>
                     <Divider style={{ borderWidth: 0.3, borderColor: 'white' }} />
                     <Text style={{ ...styles.autherName, }}>Date & Time:</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.autherName}>Price: Rs. 499</Text>
+                        <Text style={styles.autherName}>Price: Rs.{item.Book_Price}.00</Text>
                         <Text style={styles.autherName}>Auther: Name</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.sellerName}>Seller: Name</Text>
-                        <Text style={styles.sellerName}>Buyer: Name</Text>
+                        <Text style={styles.sellerName}>Seller: {item.Seller_Name}</Text>
+                        <Text style={styles.sellerName}>Quantity: {item.Book_Quantity}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.sellerName}>Type:</Text>
-                        <Text style={styles.sellerName}>Status: pending</Text>
+                        <Text style={styles.sellerName}>Category: {CategoryReader(book?.Category)}</Text>
+                        <Text style={styles.sellerName}>Expires on: {item.End_dt}</Text>
                     </View>
-                    {/* <Text style={{ color: 'white', fontFamily: 'monospace', fontSize: 15 }}>
-                        {item.overview}
-                    </Text> */}
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.sellerName}>Status: {StatusReader(item.Status)}</Text>
+                        <Text style={styles.sellerName}></Text>
+                    </View>
+                    <View style={{ marginHorizontal: '5%' }}>
+                        <Button lable={'Cancel'} textColor='red' onPress={() => setModalVisible(!modalVisible)} />
+                    </View>
                 </ScrollView>
             </View >
         </View >
@@ -102,5 +173,55 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: '1%',
         color: 'black'
-    }
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    button: {
+        borderRadius: 20,
+        paddingHorizontal: "10%",
+        paddingVertical: "5%",
+        elevation: 2,
+    },
+    buttonOpen: {
+        backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    buttonOption: {
+        backgroundColor: 'skyblue',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
 })
