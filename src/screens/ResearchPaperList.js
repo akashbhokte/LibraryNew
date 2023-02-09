@@ -1,35 +1,53 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onValue, ref } from 'firebase/database';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Searchbar } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import { Colors } from '../constants';
+import { db } from '../firestore/config';
 
-const BookList = ({ navigation }) => {
+const ResearchPaperList = ({ navigation }) => {
     const [search, setSearch] = useState('');
+    const [loading, setLoading] = useState(false)
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
 
-    useEffect(() => {
-        fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setFilteredDataSource(responseJson.results);
-                setMasterDataSource(responseJson.results);
-            })
-            .catch((error) => {
-                console.error(error);
+    const getData = () => {
+        setLoading(true);
+        try {
+            const starCountRef = ref(db, 'Seller_Master/');
+            onValue(starCountRef, async (snapshot) => {
+                const data = snapshot.val();
+                if (data) var myData = Object.keys(data).map(key => {
+                    return data[key];
+                })
+                const value = await AsyncStorage.getItem('userDetails')
+                const userVal = JSON.parse(value)
+                let list = myData.filter((i) => {
+                    if (i?.Owner == userVal?.Name) return i
+                })
+                setFilteredDataSource(list)
+                setMasterDataSource(list)
             });
-    }, []);
+        } catch (error) {
 
-    console.log("filteredDataSource", filteredDataSource[0])
+        }
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
+
 
     const searchFilterFunction = (text) => {
         if (text) {
             const newData = masterDataSource.filter(
                 function (item) {
-                    const itemData = item.title
-                        ? item.title.toUpperCase()
+                    const itemData = item.Category
+                        ? item.Category.toUpperCase()
                         : ''.toUpperCase();
                     const textData = text.toUpperCase();
                     return itemData.indexOf(textData) > -1;
@@ -46,22 +64,23 @@ const BookList = ({ navigation }) => {
         return (
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('BooksDetails', { item: item })}
+                    onPress={() => navigation.navigate('SellerBooksDetails', { item: item })}
                 >
                     <View style={styles.Card_Container}>
                         <View style={styles.Container_Item_Image}>
-                            < Image
-                                source={{
-                                    uri: 'https://image.tmdb.org/t/p/w500/' + item.poster_path,
-                                }}
+                            <Image
+                                source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+
                                 style={styles.Image_Style} />
                         </View>
                         <View style={styles.Container_Item_Desc} >
-                            <Text style={styles.Text_Style_Title}>{item.title}</Text>
-                            <Text style={styles.Text_Style_Auther}>Auther: Name</Text>
-                            < Text style={styles.Text_Style_P} >Price: Rs.500</Text>
+                            <Text style={styles.Text_Style_Title}>{item.Name}</Text>
+                            <Text style={styles.Text_Style_Auther}>Publication House: {item.Author}</Text>
+                            < Text style={styles.Text_Style_P} >Published Date: {item.Dis_Price}</Text>
+                            < Text style={styles.Text_Style_P} >Category: {item.MRP}</Text>
                         </View>
                     </View>
+
                 </TouchableOpacity>
             </View>
         );
@@ -79,11 +98,18 @@ const BookList = ({ navigation }) => {
             <View style={styles.Body_View}>
                 <Card style={styles.Main_Card_Style}>
                     <View >
-                        <FlatList
-                            data={filteredDataSource}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={ItemView}
-                        />
+                        {
+                            loading ? (
+                                <ActivityIndicator animating={loading} />
+                            ) : (
+
+                                <FlatList
+                                    data={filteredDataSource}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={ItemView}
+                                />
+                            )
+                        }
                     </View>
                 </Card>
             </View>
@@ -91,12 +117,12 @@ const BookList = ({ navigation }) => {
     )
 }
 
-export default BookList
+export default ResearchPaperList
 
 const styles = StyleSheet.create({
     Main_Body: {
         flex: 1,
-        backgroundColor: Colors.ghostWhite
+        backgroundColor: Colors.ghostWhite,
 
     },
     SearchBar_Style: {
@@ -117,7 +143,8 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         flexDirection: 'row',
-        borderBottomWidth: 0.3,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
         backgroundColor: Colors.ghostWhite
     },
     Container_Item_Image: {
@@ -157,9 +184,3 @@ const styles = StyleSheet.create({
     }
 })
 
-
-
-
-
-
-// https://image.tmdb.org/t/p/w500/

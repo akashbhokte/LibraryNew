@@ -8,7 +8,7 @@ import { Card } from 'react-native-shadow-cards';
 import { Colors } from '../constants';
 import { db } from '../firestore/config';
 
-const SellerBookList = ({ navigation }) => {
+const AdminResearchPaperList = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false)
     const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -138,7 +138,7 @@ const SellerBookList = ({ navigation }) => {
     )
 }
 
-export default SellerBookList
+export default AdminResearchPaperList
 
 const styles = StyleSheet.create({
     Main_Body: {

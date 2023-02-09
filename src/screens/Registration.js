@@ -49,7 +49,9 @@ const Registration = ({ navigation }) => {
         // })
         if (name != '' && MobileNumber != '' && Email != '' && Address != '' && locationUrl != '') {
             if (Password == ConfirmPassword) {
+                let id = AppFunctions.Datetoday() + AppFunctions.now();
                 set(ref(db, 'users/' + MobileNumber), {
+                    Id: id,
                     Name: name,
                     Contact_no: MobileNumber,
                     location: locationUrl,

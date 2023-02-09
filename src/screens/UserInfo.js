@@ -1,3 +1,4 @@
+import { onValue, ref } from 'firebase/database';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -5,33 +6,53 @@ import { Searchbar } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import Button from '../components/Core/Form/Button';
 import { Colors } from '../constants';
+import { db } from '../firestore/config';
+import { AppFunctions } from '../utils/AppFunctions';
+import { UserTypeReader } from '../utils/UserTypeReader';
 
 const UserInfo = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
-    const [selectedFilter, setSelectedFilter] = useState();
+    const [selectedFilter, setSelectedFilter] = useState('Buyer');
+    const [data, setData] = useState();
+
+    const getData = (filterBy = 'Seller') => {
+        const starCountRef = ref(db, 'users/');
+        onValue(starCountRef, (snapshot) => {
+            const data = snapshot.val();
+            var newData = AppFunctions.convertToArray(data);
+            let list = [];
+            if (filterBy == 'Buyer') {
+                list = newData.filter((i) => {
+                    if (i?.Type == 0) return i
+                })
+                setFilteredDataSource(list);
+                setMasterDataSource(list);
+            } else if (filterBy == 'Seller') {
+                list = newData.filter((i) => {
+                    if (i?.Type == 1) return i
+                })
+                setFilteredDataSource(list);
+                setMasterDataSource(list);
+            }
+            // else {
+            //     setFilteredDataSource(newData);
+            //     setMasterDataSource(newData);
+            // }
+        });
+    }
 
     useEffect(() => {
-        fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setFilteredDataSource(responseJson.results);
-                setMasterDataSource(responseJson.results);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
-    console.log("filteredDataSource", filteredDataSource[0])
+        getData(selectedFilter);
+    }, [selectedFilter])
 
     const searchFilterFunction = (text) => {
         if (text) {
             const newData = masterDataSource.filter(
                 function (item) {
-                    const itemData = item.title
-                        ? item.title.toUpperCase()
+                    const itemData = item.Name
+                        ? item.Name.toUpperCase()
                         : ''.toUpperCase();
                     const textData = text.toUpperCase();
                     return itemData.indexOf(textData) > -1;
@@ -51,15 +72,16 @@ const UserInfo = ({ navigation }) => {
                     onPress={() => navigation.navigate('UserDetails', { item: item })}
                 >
                     <View style={styles.Container_Item_Desc} >
-                        <Text style={styles.Text_Style_Title}>{item.title}</Text>
-                        <Text style={styles.Text_Style_P}>Date of Transaction: 12/12/2022</Text>
+                        <Text style={styles.Text_Style_Title}>{item.Name}</Text>
+                        <Text style={styles.Text_Style_P}>Contact Number: {item?.Contact_no}</Text>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.Text_Style_P}>Seller: Name</Text>
-                            <Text style={styles.Text_Style_P}>Buyer: Name</Text>
+                            <Text style={styles.Text_Style_P}>Email: {item?.Mail_id}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.Text_Style_P}>Type: Name</Text>
-                            <Text style={styles.Text_Style_P} >Status: Pending</Text>
+                            <Text style={styles.Text_Style_P}>Address: {item?.Add}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.Text_Style_P}>Type: {UserTypeReader(item?.Type)}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -90,13 +112,13 @@ const UserInfo = ({ navigation }) => {
                             color: selectedFilter == 'Seller' ? 'white' : 'black'
                         }}>Seller</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedFilter('Both')}>
+                    {/* <TouchableOpacity onPress={() => setSelectedFilter('Both')}>
                         <Text style={{
                             ...styles.filterButton,
                             backgroundColor: selectedFilter == 'Both' ? 'skyblue' : 'white',
                             color: selectedFilter == 'Both' ? 'white' : 'black'
                         }}>Both</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
             <View style={styles.Body_View}>

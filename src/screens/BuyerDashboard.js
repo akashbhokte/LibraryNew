@@ -3,21 +3,21 @@ import React, { useEffect } from 'react'
 import Button from '../components/Core/Form/Button'
 
 
-const AdminDashboard = ({ navigation }) => {
+const BuyerDashboard = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Button lable={'User Information'}
+            <Button lable={'Books'}
                 linearGradient
                 style={styles.button}
-                onPress={() => navigation.navigate('UserInfo')}
+                onPress={() => navigation.navigate('BuyerBookList')}
             />
-            <Button lable={'Book Information'}
+            <Button lable={'Research Papers'}
                 linearGradient
                 style={styles.button}
                 onPress={() => navigation.navigate('AdminBookList')}
             />
-            <Button lable={'Transactions'}
+            <Button lable={'Orders'}
                 linearGradient
                 style={styles.button}
                 onPress={() => navigation.navigate('AdminTransactions')}
@@ -26,7 +26,7 @@ const AdminDashboard = ({ navigation }) => {
     )
 }
 
-export default AdminDashboard
+export default BuyerDashboard
 
 const styles = StyleSheet.create({
     button: {

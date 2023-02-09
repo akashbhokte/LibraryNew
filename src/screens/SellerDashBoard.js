@@ -52,6 +52,13 @@ const SellerDashboard = ({ navigation }) => {
                         }} />
                 </View>
                 <View style={{ marginVertical: '8%' }}>
+                    <Button lable='Reasearch Paper'
+                        linearGradient
+                        onPress={() => {
+                            navigation.navigate('ResearchPaperList')
+                        }} />
+                </View>
+                <View style={{ marginVertical: '8%' }}>
                     <Button lable='Orders'
                         linearGradient
                         onPress={() => {

@@ -2,13 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onValue, ref } from 'firebase/database';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator, Searchbar } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import { Colors } from '../constants';
 import { db } from '../firestore/config';
 
-const SellerBookList = ({ navigation }) => {
+const BuyerBookList = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false)
     const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -28,8 +28,8 @@ const SellerBookList = ({ navigation }) => {
                 let list = myData.filter((i) => {
                     if (i?.Owner == userVal?.Name) return i
                 })
-                setFilteredDataSource(list)
-                setMasterDataSource(list)
+                setFilteredDataSource(myData)
+                setMasterDataSource(myData)
             });
         } catch (error) {
 
@@ -138,7 +138,7 @@ const SellerBookList = ({ navigation }) => {
     )
 }
 
-export default SellerBookList
+export default BuyerBookList
 
 const styles = StyleSheet.create({
     Main_Body: {

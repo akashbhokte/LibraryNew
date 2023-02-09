@@ -4,7 +4,7 @@ import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpa
 import { Divider } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import axios from 'axios'
+// 
 import { useTogglePasswordVisibility } from '../components/useTogglePasswordVisibility';
 import { db } from '../firestore/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,10 +38,12 @@ const Login = ({ navigation }) => {
 
                 if (data[mobile].Type == 1) {
                     navigation.navigate('SellerDashboard')
+                } else if (data[mobile].Type == 0) {
+                    navigation.navigate('BuyerDashboard')
                 } else {
-                    navigation.navigate('Home')
-
+                    navigation.navigate('AdminDashboard')
                 }
+
             } else {
                 Alert.alert('Worng Password', 'Please Enter Valid Password...')
             }

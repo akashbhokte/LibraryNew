@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { ActivityIndicator, TextInput } from 'react-native-paper'
 import RadioButton from '../components/Core/Form/RadioButton'
@@ -27,23 +27,28 @@ const AddBook = ({ navigation }) => {
         const value = await AsyncStorage.getItem('userDetails')
         const userVal = JSON.parse(value)
         try {
-            let id = AppFunctions.Datetoday() + AppFunctions.now();
-            set(ref(db, 'Seller_Master/' + id), {
-                Id: id,
-                Owner: userVal.Name,
-                Name: bookTitle,
-                Author: autherName,
-                Category: bookCategory,
-                Listing_Date: AppFunctions.Datetoday(),
-                Quantity: quantity,
-                MRP: bookPrice,
-                Dis_Price: discountedPrice,
-                image: image
+            if (discountedPrice <= bookPrice) {
+                let id = AppFunctions.Datetoday() + AppFunctions.now();
+                set(ref(db, 'Seller_Master/' + id), {
+                    Id: id,
+                    Owner: userVal.Name,
+                    Name: bookTitle,
+                    Author: autherName,
+                    Category: bookCategory,
+                    Listing_Date: AppFunctions.Datetoday(),
+                    Quantity: quantity,
+                    MRP: bookPrice,
+                    Dis_Price: discountedPrice,
+                    image: image
 
-            }).then(() => {
-                console.log("Submitted")
-                navigation.goBack();
-            }).catch((e) => console.log(e))
+                }).then(() => {
+                    console.log("Submitted")
+                    navigation.goBack();
+                }).catch((e) => console.log(e))
+            }
+            else {
+                Alert.alert('Invalid Input', 'Please Enter valid Price!')
+            }
             setLoading(false);
 
         } catch (error) {
