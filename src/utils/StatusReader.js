@@ -6,6 +6,9 @@ export const StatusReader = (type) => {
         case 1:
             return 'Completed'
             break;
+        case 2:
+            return 'Expired'
+            break;
         case 3:
             return 'Cancelled'
             break;

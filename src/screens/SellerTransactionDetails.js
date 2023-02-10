@@ -80,6 +80,29 @@ const SellerTransactionDetails = ({ navigation, route }) => {
                 End_dt: item.End_dt,
                 Status: 1,
             }).then(() => {
+                updateBookQuantity();
+
+            }).catch((e) => console.log(e))
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const updateBookQuantity = () => {
+
+        try {
+            update(ref(db, 'Seller_Master/' + book?.Id), {
+                Id: book?.Id,
+                Name: book?.Name,
+                Author: book?.Author,
+                Category: book?.Category,
+                Listing_Date: book?.Listing_Date,
+                Quantity: book?.Quantity - item?.Book_Quantity,
+                MRP: book?.MRP,
+                Dis_Price: book?.Dis_Price,
+                image: book?.image
+            }).then(() => {
                 console.log("Updated")
                 navigation.navigate('SellerTransactionList');
             }).catch((e) => console.log(e))

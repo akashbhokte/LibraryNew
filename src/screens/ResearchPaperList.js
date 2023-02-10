@@ -17,19 +17,14 @@ const ResearchPaperList = ({ navigation }) => {
     const getData = () => {
         setLoading(true);
         try {
-            const starCountRef = ref(db, 'Seller_Master/');
+            const starCountRef = ref(db, 'Research_Papers/');
             onValue(starCountRef, async (snapshot) => {
                 const data = snapshot.val();
                 if (data) var myData = Object.keys(data).map(key => {
                     return data[key];
                 })
-                const value = await AsyncStorage.getItem('userDetails')
-                const userVal = JSON.parse(value)
-                let list = myData.filter((i) => {
-                    if (i?.Owner == userVal?.Name) return i
-                })
-                setFilteredDataSource(list)
-                setMasterDataSource(list)
+                setFilteredDataSource(myData)
+                setMasterDataSource(myData)
             });
         } catch (error) {
 
@@ -64,7 +59,7 @@ const ResearchPaperList = ({ navigation }) => {
         return (
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('SellerBooksDetails', { item: item })}
+                    onPress={() => Linking.openURL(item?.url)}
                 >
                     <View style={styles.Card_Container}>
                         <View style={styles.Container_Item_Image}>
@@ -75,9 +70,8 @@ const ResearchPaperList = ({ navigation }) => {
                         </View>
                         <View style={styles.Container_Item_Desc} >
                             <Text style={styles.Text_Style_Title}>{item.Name}</Text>
-                            <Text style={styles.Text_Style_Auther}>Publication House: {item.Author}</Text>
-                            < Text style={styles.Text_Style_P} >Published Date: {item.Dis_Price}</Text>
-                            < Text style={styles.Text_Style_P} >Category: {item.MRP}</Text>
+                            < Text style={styles.Text_Style_P} >Publisher: {item.Publisher}</Text>
+                            < Text style={styles.Text_Style_P} >Category: {item.Category}</Text>
                         </View>
                     </View>
 

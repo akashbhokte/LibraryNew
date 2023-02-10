@@ -1,34 +1,36 @@
 // In Auth.js in a new project
 
-import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from '../screens/Login';
-import Registration from '../screens/Registration';
-import BooksDetails from '../screens/BuyerBooksDetails';
-import UserType from '../screens/UserType';
-import TransactionDetails from '../screens/TransactionDetails';
-import Transactions from '../screens/Transactions';
-import SellerBooksDetails from '../screens/SellerBookDetails';
-import SellerBookList from '../screens/SellerBookList';
+import * as React from 'react';
 import AddBook from '../screens/AddBook';
-import AdminDashboard from '../screens/AdminDashboard';
-import UserInfo from '../screens/UserInfo';
-import UserDetails from '../screens/UserDetails';
-import AdminBookList from '../screens/AdminBookList';
+import AddResearchPaper from '../screens/AddResearchPaper';
 import AdminBooksDetails from '../screens/AdminBookDetails';
-import AdminTransactions from '../screens/AdminTransactions';
-import AdminTransactionDetails from '../screens/AdminTransactionDetails';
-import SellerDashboard from '../screens/SellerDashBoard';
-import Orders from '../screens/Orders';
-import EditBook from '../screens/EditBook';
-import ResearchPaperList from '../screens/ResearchPaperList';
+import AdminBookList from '../screens/AdminBookList';
+import AdminDashboard from '../screens/AdminDashboard';
 import AdminResearchPaperList from '../screens/AdminResearchPaperList';
-import BuyerDashboard from '../screens/BuyerDashboard';
+import AdminTransactionDetails from '../screens/AdminTransactionDetails';
+import AdminTransactions from '../screens/AdminTransactions';
 import BuyerBookList from '../screens/BuyerBookList';
 import BuyerBooksDetails from '../screens/BuyerBooksDetails';
-import SellerTransactionsList from '../screens/SellerTransactionList';
+import BuyerDashboard from '../screens/BuyerDashboard';
+import EditBook from '../screens/EditBook';
+import EditResearchPaper from '../screens/EditResearchPaper';
+import Login from '../screens/Login';
+import Orders from '../screens/Orders';
+import Registration from '../screens/Registration';
+import ResearchPaperDetails from '../screens/ResearchPaperDetails';
+import ResearchPaperList from '../screens/ResearchPaperList';
+import SellerBooksDetails from '../screens/SellerBookDetails';
+import SellerBookList from '../screens/SellerBookList';
+import SellerDashboard from '../screens/SellerDashBoard';
 import SellerTransactionDetails from '../screens/SellerTransactionDetails';
+import SellerTransactionsList from '../screens/SellerTransactionList';
+import TransactionDetails from '../screens/TransactionDetails';
+import Transactions from '../screens/Transactions';
+import UserDetails from '../screens/UserDetails';
+import UserInfo from '../screens/UserInfo';
+import UserType from '../screens/UserType';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +63,9 @@ function Auth() {
                 <Stack.Screen name="SellerTransactionDetails" component={SellerTransactionDetails} />
                 <Stack.Screen name="AdminTransactionDetails" component={AdminTransactionDetails} />
                 <Stack.Screen name="AdminResearchPaperList" component={AdminResearchPaperList} />
+                <Stack.Screen name="ResearchPaperDetails" component={ResearchPaperDetails} />
+                <Stack.Screen name="EditResearchPaper" component={EditResearchPaper} />
+                <Stack.Screen name="AddResearchPaper" component={AddResearchPaper} />
             </Stack.Navigator>
         </NavigationContainer>
     );

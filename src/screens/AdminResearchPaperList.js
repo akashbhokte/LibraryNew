@@ -17,16 +17,18 @@ const AdminResearchPaperList = ({ navigation }) => {
     const getData = () => {
         setLoading(true);
         try {
-            const starCountRef = ref(db, 'Seller_Master/');
+            const starCountRef = ref(db, 'Research_Papers/');
             onValue(starCountRef, async (snapshot) => {
+                const value = await AsyncStorage.getItem('userDetails')
+                const userVal = JSON.parse(value)
+
                 const data = snapshot.val();
                 if (data) var myData = Object.keys(data).map(key => {
                     return data[key];
                 })
-                const value = await AsyncStorage.getItem('userDetails')
-                const userVal = JSON.parse(value)
+
                 let list = myData.filter((i) => {
-                    if (i?.Owner == userVal?.Name) return i
+                    if (i?.Admin_Name == userVal?.Name) return i
                 })
                 setFilteredDataSource(list)
                 setMasterDataSource(list)
@@ -64,7 +66,7 @@ const AdminResearchPaperList = ({ navigation }) => {
         return (
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('SellerBooksDetails', { item: item })}
+                    onPress={() => navigation.navigate('ResearchPaperDetails', { item: item })}
                 >
                     <View style={styles.Card_Container}>
                         <View style={styles.Container_Item_Image}>
@@ -75,9 +77,8 @@ const AdminResearchPaperList = ({ navigation }) => {
                         </View>
                         <View style={styles.Container_Item_Desc} >
                             <Text style={styles.Text_Style_Title}>{item.Name}</Text>
-                            <Text style={styles.Text_Style_Auther}>Author: {item.Author}</Text>
-                            < Text style={styles.Text_Style_P} >Selling Price: Rs.{item.Dis_Price}</Text>
-                            < Text style={styles.Text_Style_P} >MRP: Rs.{item.MRP}</Text>
+                            < Text style={styles.Text_Style_P} >Publisher: {item.Publisher}</Text>
+                            < Text style={styles.Text_Style_P} >Category: {item.Category}</Text>
                         </View>
                     </View>
 
@@ -100,14 +101,14 @@ const AdminResearchPaperList = ({ navigation }) => {
                     borderWidth: 1,
                     marginTop: '3%'
                 }}
-                onPress={() => navigation.navigate('AddBook')}
+                onPress={() => navigation.navigate('AddResearchPaper')}
             // onPress={()=>Linking.openURL('https://stackoverflow.com/questions/35531679/react-native-open-links-in-browser')}
             >
                 <Text style={{
                     fontSize: 20,
                     color: '#fff',
                     padding: '3%',
-                }}>+ ADD BOOK</Text>
+                }}>+ ADD</Text>
             </TouchableOpacity>
             <View style={styles.SearchBar_Style}>
                 <Searchbar

@@ -130,9 +130,13 @@ const BuyerBooksDetails = ({ navigation, route }) => {
                         <Text style={styles.sellerName}>MRP: {item?.MRP}.00</Text>
                         <Text style={styles.sellerName}>Books in stock: {item?.Quantity}</Text>
                     </View>
-                    <View style={{ flex: 1, marginHorizontal: '5%', marginTop: '5%' }}>
-                        <Button lable={'Reserve'} linearGradient onPress={() => setModalVisible(!modalVisible)} />
-                    </View>
+                    {
+                        item?.Quantity > 0 ?
+                            <View style={{ flex: 1, marginHorizontal: '5%', marginTop: '5%' }}>
+                                <Button lable={'Reserve'} linearGradient onPress={() => setModalVisible(!modalVisible)} />
+                            </View> :
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginVertical: '5%', color: 'red' }}>OUT OF STOCK</Text>
+                    }
                 </ScrollView>
             </View >
         </View >

@@ -1,45 +1,65 @@
-import React, { useState } from 'react'
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { onValue, ref, update } from 'firebase/database'
+import React, { useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
 import Button from '../components/Core/Form/Button'
+import { db } from '../firestore/config'
+import { AppFunctions } from '../utils/AppFunctions'
 
 const SellerDashboard = ({ navigation }) => {
-    const [modalVisible, setModalVisible] = useState(false)
+    const getData = () => {
+        try {
+            const starCountRef = ref(db, 'Orders/');
+            onValue(starCountRef, async (snapshot) => {
+                const data = snapshot.val();
+                if (data) var myData = Object.keys(data).map(key => {
+                    return data[key];
+                })
+                const value = await AsyncStorage.getItem('userDetails')
+                const userVal = JSON.parse(value)
+                let list = myData.filter((i) => {
+                    if (i?.Seller_Name == userVal?.Name) return i
+                })
+                list.filter((i) => {
+                    if (i.End_dt < AppFunctions.Datetoday() && i.Status == 0) {
+                        updateHandler(i.order_Id)
+                    }
+                })
+            });
+        } catch (error) {
 
+        }
+    }
+
+    const updateHandler = async (id) => {
+        const value = await AsyncStorage.getItem('userDetails')
+        const userVal = JSON.parse(value)
+        try {
+            update(ref(db, 'Orders/' + id), {
+                order_Id: id,
+                // Book_Id: book?.Id,
+                // Book_Name: book?.Name,
+                // Book_Quantity: item.Book_Quantity,
+                // Buyer_Name: item?.Buyer_Name,
+                // Book_Price: item.Book_Price,
+                // Seller_Name: userVal?.Name,
+                // Date: AppFunctions.Datetoday(),
+                // End_dt: item.End_dt,
+                Status: 2,
+            }).then(() => {
+                console.log('success')
+            }).catch((e) => console.log(e))
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, [])
     return (
         <View style={{ flex: 1 }}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(false);
-                }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <View style={{ marginBottom: '8%' }}>
-                            <Pressable
-                                style={[styles.button, styles.buttonOption]}
-                                onPress={() => navigation.navigate('SellerBookList')}>
-                                <Text style={styles.textStyle}>View / Update</Text>
-                            </Pressable>
-                        </View>
-                        <View style={{ marginBottom: '8%' }}>
-                            <Pressable
-                                style={[styles.button, styles.buttonOption]}
-                                onPress={() => navigation.navigate('AddBook')}>
-                                <Text style={styles.textStyle}>Add Book</Text>
-                            </Pressable>
-
-                        </View>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(false)}>
-                            <Text style={styles.textStyle}>BACK</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
             <View style={{ flex: 1 }}>
             </View>
             <View style={{ flex: 8, justifyContent: 'center', padding: '10%', }}>
@@ -47,7 +67,7 @@ const SellerDashboard = ({ navigation }) => {
                     <Button lable='Manage Books'
                         linearGradient
                         onPress={() => {
-                            setModalVisible(true)
+                            navigation.navigate('SellerBookList')
                         }} />
                 </View>
                 <View style={{ marginVertical: '8%' }}>

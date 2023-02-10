@@ -1,6 +1,6 @@
 import { ref, set } from "firebase/database";
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Alert,
     Pressable,
@@ -34,6 +34,9 @@ const Registration = ({ navigation }) => {
     const [type, setType] = useState(0);
     const { passwordVisibility, rightIcon, handlePasswordVisibility } =
         useTogglePasswordVisibility();
+    const [emailValid, setEmailValid] = useState(false);
+    const [mobileValid, setMobileValid] = useState(false);
+    const [passwordValid, setPasswordValid] = useState(false);
 
 
     const create = () => {
@@ -46,7 +49,7 @@ const Registration = ({ navigation }) => {
         //     Password: Password,
         //     Type: type
         // })
-        if (name != '' && MobileNumber != '' && Email != '' && Address != '') {
+        if (name != '' && MobileNumber != '' && mobileValid && Address != '' && emailValid && passwordValid) {
             if (Password == ConfirmPassword) {
                 let id = AppFunctions.Datetoday() + AppFunctions.now();
                 set(ref(db, 'users/' + MobileNumber), {
@@ -72,6 +75,43 @@ const Registration = ({ navigation }) => {
             Alert.alert('Invalid Input')
         }
     };
+
+    const validateEmail = (text) => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(text) === false) {
+            setEmail(text)
+            setEmailValid(false)
+            return false;
+        }
+        else {
+            setEmail(text)
+            setEmailValid(true)
+        }
+    }
+    const mobilevalidate = (text) => {
+        const reg = /^[0]?[789]\d{9}$/;
+        if (reg.test(text) === false) {
+            setMobileNumber(text)
+            setMobileValid(false)
+            return false;
+        } else {
+            setMobileNumber(text)
+            setMobileValid(true)
+            return true;
+        }
+    }
+    const passwordValidate = (t) => {
+        const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        if (reg.test(t) === false) {
+            setPassword(t)
+            console.log('false')
+            return false;
+        } else {
+            setPassword(t)
+            setPasswordValid(true)
+            return true;
+        }
+    }
 
     return (
         <View style={styles.main}>
@@ -135,7 +175,7 @@ const Registration = ({ navigation }) => {
                             maxLength={10}
                             keyboardType="number-pad"
                             textContentType={'telephoneNumber'}
-                            onChangeText={text => setMobileNumber(text)}
+                            onChangeText={text => mobilevalidate(text)}
                             theme={{
                                 colors: {
                                     primary: 'dodgerblue', // Outline color here
@@ -152,7 +192,7 @@ const Registration = ({ navigation }) => {
                             placeholder="Email Id"
                             value={Email}
                             keyboardType="email-address"
-                            onChangeText={text => setEmail(text)}
+                            onChangeText={text => validateEmail(text)}
                             theme={{
                                 colors: {
                                     primary: 'dodgerblue', // Outline color here
@@ -198,7 +238,7 @@ const Registration = ({ navigation }) => {
                             placeholder={'Password'}
                             textContentType="password!"
                             placeholderTextColor={'gray'}
-                            onChangeText={text => setPassword(text)}
+                            onChangeText={text => passwordValidate(text)}
                             theme={{
                                 colors: {
                                     primary: 'dodgerblue', // Outline color here

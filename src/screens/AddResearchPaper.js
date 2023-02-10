@@ -10,50 +10,43 @@ import RadioButton from '../components/Core/Form/RadioButton'
 import { db } from '../firestore/config'
 import { AppFunctions } from '../utils/AppFunctions'
 
-const AddBook = ({ navigation }) => {
+const AddResearchPaper = ({ navigation }) => {
     const [loading, setLoading] = useState(false)
 
     const [image, setImage] = useState('')
-    const [bookTitle, setBookTitle] = useState();
-    const [autherName, setAutherName] = useState()
-    const [bookPrice, setBookPrice] = useState();
-    const [discountedPrice, setDiscountedPrice] = useState();
-    const [bookType, setBookType] = useState();
-    const [bookCategory, setBookCategory] = useState();
-    const [quantity, setQuantity] = useState();
+    const [Title, setTitle] = useState('');
+    const [publisher, setPublisher] = useState('')
+    const [url, setUrl] = useState('');
+    const [category, setCategory] = useState('');
 
     const create = async () => {
         setLoading(true);
         const value = await AsyncStorage.getItem('userDetails')
         const userVal = JSON.parse(value)
-        try {
-            if (discountedPrice <= bookPrice) {
+        if (Title != '' && publisher != '' && category != '' && url != '') {
+            try {
                 let id = AppFunctions.Datetoday() + AppFunctions.now();
-                set(ref(db, 'Seller_Master/' + id), {
+                set(ref(db, 'Research_Papers/' + id), {
                     Id: id,
-                    Owner: userVal.Name,
-                    Name: bookTitle,
-                    Author: autherName,
-                    Category: bookCategory,
-                    Listing_Date: AppFunctions.Datetoday(),
-                    Quantity: quantity,
-                    MRP: bookPrice,
-                    Dis_Price: discountedPrice,
+                    Name: Title,
+                    Admin_Id: userVal?.Contact_no,
+                    Admin_Name: userVal?.Name,
+                    Publisher: publisher,
+                    Category: category,
+                    url: url,
                     image: image
-
                 }).then(() => {
                     console.log("Submitted")
                     navigation.goBack();
                 }).catch((e) => console.log(e))
-            }
-            else {
-                Alert.alert('Invalid Input', 'Please Enter valid Price!')
-            }
-            setLoading(false);
 
-        } catch (error) {
-            console.log(error)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            Alert.alert('Invalid Input', 'Please fill all boxes')
         }
+        setLoading(false);
     };
 
     const uploadImageHandler = async () => {
@@ -96,78 +89,44 @@ const AddBook = ({ navigation }) => {
                     <ActivityIndicator animating={loading} />
                 ) : (
                     <ScrollView>
-                        <Text style={styles.title}>Enter Book Details</Text>
+                        <Text style={styles.title}>Enter Details</Text>
                         <View style={styles.textInput_view}>
 
                             <TextInput
                                 style={styles.basicTextInpute}
                                 mode='outlined'
-                                label={'Book Title'}
+                                label={'Title'}
                                 placeholderTextColor={'gray'}
                                 onChangeText={(text) => {
-                                    setBookTitle(text)
+                                    setTitle(text)
                                 }}
                             />
                             <TextInput
                                 style={styles.basicTextInpute}
                                 mode='outlined'
-                                label={'Auther Name'}
+                                label={'Publisher'}
                                 placeholderTextColor={'gray'}
                                 onChangeText={(text) => {
-                                    setAutherName(text)
+                                    setPublisher(text)
                                 }}
                             />
                             <TextInput
                                 style={styles.basicTextInpute}
                                 mode='outlined'
-                                label={'Book Price'}
-                                keyboardType='number-pad'
+                                label={'Category'}
                                 placeholderTextColor={'gray'}
                                 onChangeText={(text) => {
-                                    setBookPrice(text)
+                                    setCategory(text)
                                 }}
                             />
                             <TextInput
                                 style={styles.basicTextInpute}
                                 mode='outlined'
-                                label={'Discounted Price'}
-                                keyboardType='number-pad'
+                                label={'URL'}
                                 placeholderTextColor={'gray'}
                                 onChangeText={(text) => {
-                                    setDiscountedPrice(text)
+                                    setUrl(text)
                                 }}
-                            />
-                            <TextInput
-                                style={styles.basicTextInpute}
-                                mode='outlined'
-                                label={'Quantity'}
-                                keyboardType='number-pad'
-                                placeholderTextColor={'gray'}
-                                onChangeText={(text) => {
-                                    setQuantity(text)
-                                }}
-                            />
-
-                            <Text style={{ fontSize: 18, color: 'black', marginVertical: '3%' }}>
-                                Book Category
-                            </Text>
-                            <RadioButton data={[
-                                {
-                                    label: 'History'
-                                },
-                                {
-                                    label: 'Fantasy'
-                                },
-                                {
-                                    label: 'Documentry'
-                                },
-                                {
-                                    label: 'Other'
-                                },
-                            ]}
-                                state={bookCategory}
-                                setState={setBookCategory}
-                                labelStyle={{ marginVertical: '2%' }}
                             />
                             {
                                 image == '' ?
@@ -186,7 +145,7 @@ const AddBook = ({ navigation }) => {
     )
 }
 
-export default AddBook
+export default AddResearchPaper
 
 const styles = StyleSheet.create({
     title: {

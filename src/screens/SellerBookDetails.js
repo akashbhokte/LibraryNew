@@ -87,17 +87,21 @@ const SellerBooksDetails = ({ navigation, route }) => {
                         <Text style={styles.sellerName}>MRP: {item?.MRP}.00</Text>
                         <Text style={styles.sellerName}>Books in stock: {item?.Quantity}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: '5%' }}>
-                        <View style={{ flex: 1, marginHorizontal: '5%', }}>
-                            <Button lable={'Edit'} linearGradient onPress={() => navigation.navigate('EditBook', { item: item })} />
-                        </View>
-                        <View style={{ flex: 1, marginHorizontal: '5%', }}>
-                            {
-                                loading ? <Text>loading</Text> :
-                                    <Button lable={'Delete'} textColor='red' onPress={() => setModalVisible(!modalVisible)} />
-                            }
-                        </View>
-                    </View>
+                    {
+                        item?.Quantity > 0 ? (
+                            <View style={{ flexDirection: 'row', marginTop: '5%' }}>
+                                <View style={{ flex: 1, marginHorizontal: '5%', }}>
+                                    <Button lable={'Edit'} linearGradient onPress={() => navigation.navigate('EditBook', { item: item })} />
+                                </View>
+                                <View style={{ flex: 1, marginHorizontal: '5%', }}>
+                                    {
+                                        loading ? <Text>loading</Text> :
+                                            <Button lable={'Delete'} textColor='red' onPress={() => setModalVisible(!modalVisible)} />
+                                    }
+                                </View>
+                            </View>
+                        ) : null
+                    }
                 </ScrollView>
             </View >
         </View >
