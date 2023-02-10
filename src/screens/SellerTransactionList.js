@@ -35,7 +35,6 @@ const SellerTransactionsList = ({ navigation }) => {
                 setMasterDataSource(list)
             });
         } catch (error) {
-
         }
         setLoading(false);
     }
@@ -67,7 +66,7 @@ const SellerTransactionsList = ({ navigation }) => {
         return (
             <Card style={{ marginVertical: '2%', alignSelf: 'center' }}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('TransactionDetails', { item: item })}
+                    onPress={() => navigation.navigate('SellerTransactionDetails', { item: item })}
                 >
                     <View style={styles.Container_Item_Desc} >
                         <Text style={styles.Text_Style_Title}>{item.Book_Name}</Text>
@@ -77,7 +76,7 @@ const SellerTransactionsList = ({ navigation }) => {
                             <Text style={styles.Text_Style_P}>Quantity: {item.Book_Quantity}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.Text_Style_P}>Seller: {item.Seller_Name}</Text>
+                            <Text style={styles.Text_Style_P}>Buyer: {item.Buyer_Name}</Text>
                             <Text style={styles.Text_Style_P} >Status: {StatusReader(item.Status)}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>

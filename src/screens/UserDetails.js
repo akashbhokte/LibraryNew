@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../constants';
 import Button from '../components/Core/Form/Button';
 import { UserTypeReader } from '../utils/UserTypeReader';

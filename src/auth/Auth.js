@@ -28,6 +28,7 @@ import BuyerDashboard from '../screens/BuyerDashboard';
 import BuyerBookList from '../screens/BuyerBookList';
 import BuyerBooksDetails from '../screens/BuyerBooksDetails';
 import SellerTransactionsList from '../screens/SellerTransactionList';
+import SellerTransactionDetails from '../screens/SellerTransactionDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ function Auth() {
                 <Stack.Screen name="SellerBooksDetails" component={SellerBooksDetails} />
                 <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
                 <Stack.Screen name="SellerTransactionList" component={SellerTransactionsList} />
+                <Stack.Screen name="SellerTransactionDetails" component={SellerTransactionDetails} />
                 <Stack.Screen name="AdminTransactionDetails" component={AdminTransactionDetails} />
                 <Stack.Screen name="AdminResearchPaperList" component={AdminResearchPaperList} />
             </Stack.Navigator>

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
 // import AntDesign from 'react-native-vector-icons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -113,7 +113,6 @@ const TransactionDetails = ({ navigation, route }) => {
                         {item.Book_Name}
                     </Text>
                     <Divider style={{ borderWidth: 0.3, borderColor: 'white' }} />
-                    <Text style={{ ...styles.autherName, }}>Date & Time:</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.autherName}>Price: Rs.{item.Book_Price}.00</Text>
                         <Text style={styles.autherName}>Auther: Name</Text>
@@ -124,15 +123,18 @@ const TransactionDetails = ({ navigation, route }) => {
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.sellerName}>Category: {CategoryReader(book?.Category)}</Text>
-                        <Text style={styles.sellerName}>Expires on: {item.End_dt}</Text>
+                        <Text style={styles.sellerName}>Ordered Date: {AppFunctions.dateShowConvert(item.Date)}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.sellerName}>Status: {StatusReader(item.Status)}</Text>
-                        <Text style={styles.sellerName}></Text>
+                        <Text style={styles.sellerName}>Expires on: {AppFunctions.dateShowConvert(item.End_dt)}</Text>
                     </View>
-                    <View style={{ marginHorizontal: '5%' }}>
-                        <Button lable={'Cancel'} textColor='red' onPress={() => setModalVisible(!modalVisible)} />
-                    </View>
+                    {
+                        item.Status != 0 ? null :
+                            <View style={{ marginHorizontal: '5%' }}>
+                                <Button lable={'Cancel'} textColor='red' onPress={() => setModalVisible(!modalVisible)} />
+                            </View>
+                    }
                 </ScrollView>
             </View >
         </View >

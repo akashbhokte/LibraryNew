@@ -71,7 +71,7 @@ const Transactions = ({ navigation }) => {
                 >
                     <View style={styles.Container_Item_Desc} >
                         <Text style={styles.Text_Style_Title}>{item.Book_Name}</Text>
-                        <Text style={styles.Text_Style_P}>Date of Transaction: {AppFunctions.dateShowConvert(item.Date)}</Text>
+                        <Text style={styles.Text_Style_P}>Ordered Date: {AppFunctions.dateShowConvert(item.Date)}</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.Text_Style_P}>Price: Rs.{item.Book_Price}.00</Text>
                             <Text style={styles.Text_Style_P}>Quantity: {item.Book_Quantity}</Text>
@@ -81,7 +81,7 @@ const Transactions = ({ navigation }) => {
                             <Text style={styles.Text_Style_P} >Status: {StatusReader(item.Status)}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.Text_Style_P}>Expires on: {item.End_dt}</Text>
+                            <Text style={styles.Text_Style_P}>Expires on: {AppFunctions.dateShowConvert(item.End_dt)}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

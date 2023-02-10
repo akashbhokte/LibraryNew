@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
 // import AntDesign from 'react-native-vector-icons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';

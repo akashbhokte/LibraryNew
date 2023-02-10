@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Divider, TextInput } from 'react-native-paper';
 import { Colors } from '../constants';
 import Button from '../components/Core/Form/Button';
