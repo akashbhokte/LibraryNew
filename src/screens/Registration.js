@@ -29,7 +29,6 @@ const Registration = ({ navigation }) => {
     const [MobileNumber, setMobileNumber] = useState('');
     const [Email, setEmail] = useState('');
     const [Address, setAddress] = useState('');
-    const [locationUrl, setLocationUrl] = useState('');
     const [Password, setPassword] = useState('');
     const [ConfirmPassword, setConfirmPassword] = useState('');
     const [type, setType] = useState(0);
@@ -47,14 +46,13 @@ const Registration = ({ navigation }) => {
         //     Password: Password,
         //     Type: type
         // })
-        if (name != '' && MobileNumber != '' && Email != '' && Address != '' && locationUrl != '') {
+        if (name != '' && MobileNumber != '' && Email != '' && Address != '') {
             if (Password == ConfirmPassword) {
                 let id = AppFunctions.Datetoday() + AppFunctions.now();
                 set(ref(db, 'users/' + MobileNumber), {
                     Id: id,
                     Name: name,
                     Contact_no: MobileNumber,
-                    location: locationUrl,
                     Mail_id: Email,
                     Add: Address,
                     Password: Password,
@@ -180,23 +178,6 @@ const Registration = ({ navigation }) => {
                             right={<TextInput.Icon name="pen" color="dodgerblue" />}
                         />
                     </View>
-
-                    <View style={styles.textInput_view}>
-                        <TextInput
-                            mode="flat"
-                            style={styles.Inputtext}
-                            placeholder="Location"
-                            value={locationUrl}
-                            onChangeText={text => setLocationUrl(text)}
-                            theme={{
-                                colors: {
-                                    primary: 'dodgerblue', // Outline color here
-                                },
-                            }}
-                            right={<TextInput.Icon name="pen" color="dodgerblue" />}
-                        />
-                    </View>
-
                     <View
                         style={[
                             styles.textInput_view,
