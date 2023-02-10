@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import Button from '../components/Core/Form/Button'
 
 const UserType = ({ navigation }) => {

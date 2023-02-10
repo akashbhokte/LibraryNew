@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import Button from '../components/Core/Form/Button'
 
 

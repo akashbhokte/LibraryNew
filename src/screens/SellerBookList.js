@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onValue, ref } from 'firebase/database';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator, Searchbar } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import { Colors } from '../constants';

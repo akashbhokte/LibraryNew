@@ -1,14 +1,14 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ref, set } from 'firebase/database'
 import React, { useState } from 'react'
-import { ActivityIndicator, TextInput } from 'react-native-paper'
-import RadioButton from '../components/Core/Form/RadioButton'
-import Button from '../components/Core/Form/Button'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import DocumentPicker, { types } from 'react-native-document-picker'
 import RNFS from 'react-native-fs'
-import { child, Database, push, ref, set } from 'firebase/database'
-import { AppFunctions } from '../utils/AppFunctions'
+import { ActivityIndicator, TextInput } from 'react-native-paper'
+import Button from '../components/Core/Form/Button'
+import RadioButton from '../components/Core/Form/RadioButton'
 import { db } from '../firestore/config'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { AppFunctions } from '../utils/AppFunctions'
 
 const AddBook = ({ navigation }) => {
     const [loading, setLoading] = useState(false)

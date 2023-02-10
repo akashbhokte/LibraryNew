@@ -2,17 +2,12 @@
 import React, { useState } from 'react';
 import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
-// import AntDesign from 'react-native-vector-icons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import moment from 'moment';
-import { Colors } from '../constants';
+import { ref, remove } from 'firebase/database';
 import Button from '../components/Core/Form/Button';
+import { Colors } from '../constants';
+import { db } from '../firestore/config';
 import { AppFunctions } from '../utils/AppFunctions';
 import { CategoryReader } from '../utils/CategoryReader';
-import { ref, remove } from 'firebase/database';
-import { db } from '../firestore/config';
 
 const AdminBooksDetails = ({ navigation, route }) => {
     const item = route.params.item

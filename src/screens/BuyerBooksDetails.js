@@ -1,14 +1,14 @@
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ref, set } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Divider, TextInput } from 'react-native-paper';
-import { Colors } from '../constants';
+import { Divider } from 'react-native-paper';
 import Button from '../components/Core/Form/Button';
-import { onValue, ref, remove, set } from 'firebase/database';
+import { Colors } from '../constants';
 import { db } from '../firestore/config';
-import { CategoryReader } from '../utils/CategoryReader';
 import { AppFunctions } from '../utils/AppFunctions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CategoryReader } from '../utils/CategoryReader';
 
 const BuyerBooksDetails = ({ navigation, route }) => {
     const item = route.params.item

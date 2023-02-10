@@ -1,14 +1,13 @@
 
-import React, { useEffect, useState } from 'react';
+import { ref, remove } from 'firebase/database';
+import React, { useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
-import moment from 'moment';
-import { Colors } from '../constants';
 import Button from '../components/Core/Form/Button';
-import { onValue, ref, remove } from 'firebase/database';
+import { Colors } from '../constants';
 import { db } from '../firestore/config';
-import { CategoryReader } from '../utils/CategoryReader';
 import { AppFunctions } from '../utils/AppFunctions';
+import { CategoryReader } from '../utils/CategoryReader';
 
 const SellerBooksDetails = ({ navigation, route }) => {
     const item = route.params.item

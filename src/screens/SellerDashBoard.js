@@ -1,7 +1,6 @@
-import { Modal, Pressable, StyleSheet, View, Text, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import Button from '../components/Core/Form/Button'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SellerDashboard = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false)
@@ -14,7 +13,7 @@ const SellerDashboard = ({ navigation }) => {
                 visible={modalVisible}
                 onRequestClose={() => {
                     Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
+                    setModalVisible(false);
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
@@ -35,7 +34,7 @@ const SellerDashboard = ({ navigation }) => {
                         </View>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
+                            onPress={() => setModalVisible(false)}>
                             <Text style={styles.textStyle}>BACK</Text>
                         </Pressable>
                     </View>
@@ -48,7 +47,7 @@ const SellerDashboard = ({ navigation }) => {
                     <Button lable='Manage Books'
                         linearGradient
                         onPress={() => {
-                            setModalVisible(!modalVisible)
+                            setModalVisible(true)
                         }} />
                 </View>
                 <View style={{ marginVertical: '8%' }}>

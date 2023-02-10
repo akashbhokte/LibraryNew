@@ -1,5 +1,6 @@
+import { ref, set } from "firebase/database";
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Alert,
     Pressable,
@@ -8,16 +9,15 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useTogglePasswordVisibility } from '../components/useTogglePasswordVisibility';
-import { onValue, ref, set } from "firebase/database"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import RadioButton from '../components/Core/Form/RadioButton';
 import Label from '../components/Core/Form/Label';
+import RadioButton from '../components/Core/Form/RadioButton';
+import { useTogglePasswordVisibility } from '../components/useTogglePasswordVisibility';
 import { db } from '../firestore/config';
 import { AppFunctions } from '../utils/AppFunctions';
 

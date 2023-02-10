@@ -3,12 +3,9 @@ import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
 // import AntDesign from 'react-native-vector-icons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import moment from 'moment';
 import { Colors } from '../constants';
-import Button from '../components/Core/Form/Button';
 
 const AdminTransactionDetails = ({ navigation, route }) => {
     const item = route.params.item

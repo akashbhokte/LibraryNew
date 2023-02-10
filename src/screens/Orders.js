@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { Card } from 'react-native-shadow-cards';
 import Button from '../components/Core/Form/Button';

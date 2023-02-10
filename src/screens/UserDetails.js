@@ -1,11 +1,11 @@
 
+import { ref, remove } from 'firebase/database';
 import React, { useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Colors } from '../constants';
 import Button from '../components/Core/Form/Button';
-import { UserTypeReader } from '../utils/UserTypeReader';
-import { ref, remove } from 'firebase/database';
+import { Colors } from '../constants';
 import { db } from '../firestore/config';
+import { UserTypeReader } from '../utils/UserTypeReader';
 
 const UserDetails = ({ navigation, route }) => {
     const item = route.params.item

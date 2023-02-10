@@ -2,19 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
-// import AntDesign from 'react-native-vector-icons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import moment from 'moment';
-import { Colors } from '../constants';
-import Button from '../components/Core/Form/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onValue, ref, update } from 'firebase/database';
+import Button from '../components/Core/Form/Button';
+import { Colors } from '../constants';
 import { db } from '../firestore/config';
-import { StatusReader } from '../utils/StatusReader';
-import { CategoryReader } from '../utils/CategoryReader';
 import { AppFunctions } from '../utils/AppFunctions';
+import { CategoryReader } from '../utils/CategoryReader';
+import { StatusReader } from '../utils/StatusReader';
 
 const TransactionDetails = ({ navigation, route }) => {
     const item = route.params.item
