@@ -10,8 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
     const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-    const [mobile, setMobile] = useState('9090909090');
-    const [password, setPassword] = useState('Admin123');
+    const [mobile, setMobile] = useState('7070707070');
+    const [password, setPassword] = useState('Akash@123');
     const [data, setData] = useState();
 
     const getData = () => {

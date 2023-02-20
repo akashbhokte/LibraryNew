@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onValue, ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Button from '../components/Core/Form/Button'
 import { db } from '../firestore/config';
 import { AppFunctions } from '../utils/AppFunctions';
 
 
 const BuyerDashboard = ({ navigation }) => {
+    const [user, setUser] = useState();
 
     const getData = () => {
         try {
@@ -57,27 +58,41 @@ const BuyerDashboard = ({ navigation }) => {
         }
     };
 
+    const getUserDetails = async () => {
+        const value = await AsyncStorage.getItem('userDetails')
+        const userVal = JSON.parse(value)
+        setUser(userVal)
+    }
+
     useEffect(() => {
         getData();
+        getUserDetails();
     }, [])
 
     return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Button lable={'Books'}
-                linearGradient
-                style={styles.button}
-                onPress={() => navigation.navigate('BuyerBookList')}
-            />
-            <Button lable={'Research Papers'}
-                linearGradient
-                style={styles.button}
-                onPress={() => navigation.navigate('ResearchPaperList')}
-            />
-            <Button lable={'Orders'}
-                linearGradient
-                style={styles.button}
-                onPress={() => navigation.navigate('Transactions')}
-            />
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingLeft: '2%' }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>Welcome,</Text>
+                <Text style={{ fontSize: 22, color: 'black' }}> {user?.Name}</Text>
+            </View>
+            <View style={{ flex: 8, justifyContent: 'center', }}>
+
+                <Button lable={'Books'}
+                    linearGradient
+                    style={styles.button}
+                    onPress={() => navigation.navigate('BuyerBookList')}
+                />
+                <Button lable={'Research Papers'}
+                    linearGradient
+                    style={styles.button}
+                    onPress={() => navigation.navigate('ResearchPaperList')}
+                />
+                <Button lable={'Orders'}
+                    linearGradient
+                    style={styles.button}
+                    onPress={() => navigation.navigate('Transactions')}
+                />
+            </View>
         </View>
     )
 }

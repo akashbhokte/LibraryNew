@@ -41,31 +41,31 @@ function Auth() {
                 <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="UserType" component={UserType} />
-                <Stack.Screen name="SellerDashboard" component={SellerDashboard} />
-                <Stack.Screen name="Orders" component={Orders} />
+                <Stack.Screen name="SellerDashboard" component={SellerDashboard} options={{ headerTitle: 'Dashboard' }} />
+                <Stack.Screen name="Orders" component={Orders} options={{ headerTitle: 'Orders' }} />
                 <Stack.Screen name="ResearchPaperList" component={ResearchPaperList} options={{ headerTitle: 'Research Papers' }} />
-                <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
-                <Stack.Screen name="UserInfo" component={UserInfo} />
-                <Stack.Screen name="UserDetails" component={UserDetails} />
-                <Stack.Screen name="Transactions" component={Transactions} />
-                <Stack.Screen name="AdminTransactions" component={AdminTransactions} />
-                <Stack.Screen name="BuyerBookList" component={BuyerBookList} />
-                <Stack.Screen name="AdminBookList" component={AdminBookList} />
-                <Stack.Screen name="AddBook" component={AddBook} />
-                <Stack.Screen name="EditBook" component={EditBook} />
-                <Stack.Screen name="SellerBookList" component={SellerBookList} />
-                <Stack.Screen name="BuyerDashboard" component={BuyerDashboard} />
-                <Stack.Screen name="BuyerBooksDetails" component={BuyerBooksDetails} />
-                <Stack.Screen name="AdminBooksDetails" component={AdminBooksDetails} />
-                <Stack.Screen name="SellerBooksDetails" component={SellerBooksDetails} />
-                <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
-                <Stack.Screen name="SellerTransactionList" component={SellerTransactionsList} />
-                <Stack.Screen name="SellerTransactionDetails" component={SellerTransactionDetails} />
-                <Stack.Screen name="AdminTransactionDetails" component={AdminTransactionDetails} />
-                <Stack.Screen name="AdminResearchPaperList" component={AdminResearchPaperList} />
-                <Stack.Screen name="ResearchPaperDetails" component={ResearchPaperDetails} />
-                <Stack.Screen name="EditResearchPaper" component={EditResearchPaper} />
-                <Stack.Screen name="AddResearchPaper" component={AddResearchPaper} />
+                <Stack.Screen name="AdminDashboard" component={AdminDashboard} options={{ headerTitle: 'Dashboard' }} />
+                <Stack.Screen name="UserInfo" component={UserInfo} options={{ headerTitle: 'Users' }} />
+                <Stack.Screen name="UserDetails" component={UserDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="Transactions" component={Transactions} options={{ headerTitle: 'Orders' }} />
+                <Stack.Screen name="AdminTransactions" component={AdminTransactions} options={{ headerTitle: 'Orders' }} />
+                <Stack.Screen name="BuyerBookList" component={BuyerBookList} options={{ headerTitle: 'Books' }} />
+                <Stack.Screen name="AdminBookList" component={AdminBookList} options={{ headerTitle: 'Books' }} />
+                <Stack.Screen name="AddBook" component={AddBook} options={{ headerTitle: 'Add Book' }} />
+                <Stack.Screen name="EditBook" component={EditBook} options={{ headerTitle: 'Edit Book' }} />
+                <Stack.Screen name="SellerBookList" component={SellerBookList} options={{ headerTitle: 'Books' }} />
+                <Stack.Screen name="BuyerDashboard" component={BuyerDashboard} options={{ headerTitle: 'Dashboard' }} />
+                <Stack.Screen name="BuyerBooksDetails" component={BuyerBooksDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="AdminBooksDetails" component={AdminBooksDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="SellerBooksDetails" component={SellerBooksDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="TransactionDetails" component={TransactionDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="SellerTransactionList" component={SellerTransactionsList} options={{ headerTitle: 'Orders' }} />
+                <Stack.Screen name="SellerTransactionDetails" component={SellerTransactionDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="AdminTransactionDetails" component={AdminTransactionDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="AdminResearchPaperList" component={AdminResearchPaperList} options={{ headerTitle: 'Research Papers' }} />
+                <Stack.Screen name="ResearchPaperDetails" component={ResearchPaperDetails} options={{ headerTitle: 'Details' }} />
+                <Stack.Screen name="EditResearchPaper" component={EditResearchPaper} options={{ headerTitle: 'Edit' }} />
+                <Stack.Screen name="AddResearchPaper" component={AddResearchPaper} options={{ headerTitle: 'Add Research Paper' }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
